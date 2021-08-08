@@ -20,9 +20,10 @@ sequences = tokenizer.text_to_sequences(sentences)
 max_sequence_len = max([len(x) for x in sequences])
 paddedsequence = np.array(pad_sequences(sequences, maxlen=max_sequence_len, padding='pre'))
 
+BATCH_SIZE = 64
 
-
-def build_model(seqence_length, embedding_dim, batch_size):
+#Create Bidirectional RNN
+def create_model(seqence_length, embedding_dim, batch_size):
     model = tf.keras.Sequential([
         tf.keras.layers.Embedding(seqence_length, embedding_dim,
                                   batch_input_shape=[batch_size, None]),
@@ -33,3 +34,17 @@ def build_model(seqence_length, embedding_dim, batch_size):
 
 sequence_size = len(sequences)
 embedding_dim = 256
+
+
+model = create_model(sequence_size, embedding_dim, BATCH_SIZE)
+adam = Adam(lr=0.01)
+model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
+
+
+# create predictors and label
+total_words = len(tokenizer.word_index) + 1
+xs, labels = input_sequences[:,:-1],input_sequences[:,-1]
+
+ys = tf.keras.utils.to_categorical(labels, num_classes=total_words)
+
+def generate_text()
