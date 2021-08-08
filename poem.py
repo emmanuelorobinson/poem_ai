@@ -51,7 +51,7 @@ ys = tf.keras.utils.to_categorical(labels, num_classes=total_words)
 history = model.fit(xs, ys, epochs=100, verbose=1)
 
 def generate_text():
-    seed_text = "I've got a bad feeling about this"
+    seed_text = "Where does my love lie"
     next_words = 100
   
     for _ in range(next_words):
