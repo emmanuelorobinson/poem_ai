@@ -22,14 +22,15 @@ paddedsequence = np.array(pad_sequences(sequences, maxlen=max_sequence_len, padd
 
 
 
-def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
+def build_model(seqence_length, embedding_dim, batch_size):
     model = tf.keras.Sequential([
         tf.keras.layers.Embedding(vocab_size, embedding_dim,
                                   batch_input_shape=[batch_size, None]),
-        tf.keras.layers.GRU(rnn_units,
-                            return_sequences=True,
-                            stateful=True,
-                            recurrent_initializer='glorot_uniform'),
+        tf.keras.layers.Bidirectional
         tf.keras.layers.Dense(vocab_size)
     ])
     return model
+
+sequence_size = len(sequences)
+embedding_dim = 256
+rnn_units = 1024
