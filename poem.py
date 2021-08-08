@@ -47,4 +47,21 @@ xs, labels = input_sequences[:,:-1],input_sequences[:,-1]
 
 ys = tf.keras.utils.to_categorical(labels, num_classes=total_words)
 
-def generate_text()
+
+history = model.fit(xs, ys, epochs=100, verbose=1)
+
+def generate_text():
+    seed_text = "I've got a bad feeling about this"
+    next_words = 100
+  
+    for _ in range(next_words):
+	    token_list = tokenizer.texts_to_sequences([seed_text])[0]
+	    token_list = pad_sequences([token_list], maxlen=max_sequence_len-1, padding='pre')
+	    predicted = model.predict_classes(token_list, verbose=0)
+	    output_word = ""
+	    for word, index in tokenizer.word_index.items():
+		    if index == predicted:
+			    output_word = word
+			    break
+	    seed_text += " " + output_word
+    print(seed_text)
