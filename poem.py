@@ -27,7 +27,7 @@ def create_model(seqence_length, embedding_dim, batch_size):
     model = tf.keras.Sequential([
         tf.keras.layers.Embedding(seqence_length, embedding_dim,
                                   batch_input_shape=[batch_size, None]),
-        tf.keras.layers.Bidirectional(LSTM(150)),
+        tf.keras.layers.Bidirectional(LSTM(128)),
         tf.keras.layers.Dense(vocab_size)
     ])
     return model
