@@ -1,10 +1,17 @@
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.preprocessing.text import Tokennizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-import numpy as np
 
-path_to_file = ""
+import tensorflow as tf
+import numpy as np
+import os
+import time
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout, Bidirectional
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras import regularizers
+import tensorflow.keras.utils as ku
+
+path_to_file = "C:\Users\DELL\Downloads\poem_ai-main\poem.txt"
 
 text = open(path_to_file, 'rb').read().decode(encoding='utf-8')
 
@@ -21,6 +28,7 @@ max_sequence_len = max([len(x) for x in sequences])
 paddedsequence = np.array(pad_sequences(sequences, maxlen=max_sequence_len, padding='pre'))
 
 BATCH_SIZE = 64
+vocab_size = 58
 
 #Create Bidirectional RNN
 def create_model(seqence_length, embedding_dim, batch_size):
@@ -65,3 +73,4 @@ def generate_text():
 			    break
 	    seed_text += " " + output_word
     print(seed_text)
+
